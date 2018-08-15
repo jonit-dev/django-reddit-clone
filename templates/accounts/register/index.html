@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="col-md-12">
+
+            <h1>Register</h1>
+
+            {% if alert %}
+                {% include "display/alert.html" %}
+            {% endif %}
+
+
+            <form action="{% url 'accounts:register_create' %}" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="user_email">Email address</label>
+                    <input type="email" class="form-control" name="user_email" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="user_password">Password</label>
+                    <input type="password" class="form-control" id="user_password" placeholder="Password">
+                </div>
+
+                <div class="form-group">
+                    <label for="user_password">Password confirmation</label>
+                    <input type="password" class="form-control" id="user_password_confirm"
+                           placeholder="Password confirmation">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+
+
+        </div>
+    </div>
+{% endblock %}
+
