@@ -121,4 +121,7 @@ STATICFILES_DIRS = [
     '/var/www/static/',
 ]
 
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'accounts.backends.CustomBackend'
+]
