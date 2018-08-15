@@ -7,7 +7,6 @@ app_name = "accounts"
 
 urlpatterns = [
 
-    url(r'^register/index$', views.index, name='register_index'),
-    url(r'^register/create$', views.create, name='register_create'),
+    url(r'^register', views.register, name='register'),
 
 ]
