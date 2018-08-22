@@ -10,3 +10,7 @@ class Validate:
             return True
         else:
             return False
+
+    @staticmethod
+    def passwords_match(password1, password2):
+        return password1 == password2

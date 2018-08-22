@@ -17,29 +17,34 @@ def register(request):
         if Validate.check_user_exists(request.POST["user_email"]):
             return UIDisplay.alert(request, "accounts/register/index.html", "danger",
                                    "This user already exists. Try using a different e-mail or username")
-
-        # add check password match
-
         else:
-            new_user = User.objects.create_user(request.POST["user_name"], request.POST["user_email"],
-                                                request.POST["user_password"])
 
-            if new_user:
-
-                # # login user
-                # user = authenticate(email=request.POST["user_email"], password=request.POST["user_password"])
-                #
-                # if user is not None:
-                return UIDisplay.alert(request, "accounts/register/index.html", "success",
-                                       "Your account was created successfully")
-            # else:
-            #     return UIDisplay.alert(request, "accounts/register/index.html", "danger",
-            #                            "Error while trying to login your user")
-            #
+            # add check password match
+            if not Validate.passwords_match(request.POST['user_password'], request.POST['user_password_confirm']):
+                return UIDisplay.alert(request, "accounts/register/index.html", "danger",
+                                       "The provided passwords didn't match. Try again.")
 
             else:
-                return UIDisplay.alert(request, "accounts/register/index.html", "danger",
-                                       "Error while creating your user")
+
+                new_user = User.objects.create_user(request.POST["user_name"], request.POST["user_email"],
+                                                    request.POST["user_password"])
+
+                if new_user:
+
+                    # # login user
+                    # user = authenticate(email=request.POST["user_email"], password=request.POST["user_password"])
+                    #
+                    # if user is not None:
+                    return UIDisplay.alert(request, "accounts/register/index.html", "success",
+                                           "Your account was created successfully")
+                # else:
+                #     return UIDisplay.alert(request, "accounts/register/index.html", "danger",
+                #                            "Error while trying to login your user")
+                #
+
+                else:
+                    return UIDisplay.alert(request, "accounts/register/index.html", "danger",
+                                           "Error while creating your user")
 
 
 def signin(request):
@@ -59,8 +64,8 @@ def signin(request):
         else:
             return UIDisplay.alert(request, "home.html", "danger", "Invalid credentials. Try again.")
 
-def signout(request):
 
+def signout(request):
     logout(request)
 
     return UIDisplay.alert(request, "home.html", "primary", "You're now logged out")
