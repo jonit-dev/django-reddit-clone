@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from classes.UIDisplay import *
-from classes.user.Validate import *
+from classes.validate.Validate import *
 from django.contrib.auth.models import User  # User Model
 
 from django.contrib.auth import authenticate, login, logout  # login
@@ -31,16 +31,9 @@ def register(request):
 
                 if new_user:
 
-                    # # login user
-                    # user = authenticate(email=request.POST["user_email"], password=request.POST["user_password"])
-                    #
-                    # if user is not None:
                     return UIDisplay.alert(request, "accounts/register/index.html", "success",
                                            "Your account was created successfully")
-                # else:
-                #     return UIDisplay.alert(request, "accounts/register/index.html", "danger",
-                #                            "Error while trying to login your user")
-                #
+
 
                 else:
                     return UIDisplay.alert(request, "accounts/register/index.html", "danger",
@@ -49,7 +42,12 @@ def register(request):
 
 def signin(request):
     if request.method == "GET":
-        return render(request, 'accounts/login/index.html')
+
+        if 'next' in request.GET:
+            nextUrl = request.GET["next"]
+            return render(request, 'accounts/login/index.html', {'nextUrl': nextUrl})
+        else:
+            return render(request, 'accounts/login/index.html')
 
     if request.method == "POST":
 
@@ -60,9 +58,15 @@ def signin(request):
             print("Authenticating user... {}".format(user))
 
             login(request, user)
-            return UIDisplay.alert(request, "home.html", "success", "You're now logged in")
+
+            # check if user wants to redirect us, if not... just say we're logged in!
+            if 'nextUrl' in request.POST:
+                return redirect(request.POST["nextUrl"])
+            else:
+                return UIDisplay.alert(request, "home.html", "success", "You're now logged in")
+
         else:
-            return UIDisplay.alert(request, "home.html", "danger", "Invalid credentials. Try again.")
+            return UIDisplay.alert(request, "accounts/login/index.html", "danger", "Invalid credentials. Try again.")
 
 
 def signout(request):

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="col-md-12">
+
+            <h1>Create your Post</h1>
+
+            {% if alert %}
+                {% include "display/alert.html" %}
+            {% endif %}
+
+
+            <form action="{% url 'posts:create' %}" method="POST">
+                {% csrf_token %}
+
+
+                <div class="form-group">
+                    <label for="post_title">Title</label>
+                    <input type="text" name="post_title" class="form-control" id="post_title"
+                           placeholder="Post title">
+                </div>
+
+                 <div class="form-group">
+                    <label for="post_url">Url</label>
+                    <input type="text" name="post_url" class="form-control" id="post_url"
+                           placeholder="Post Url">
+                </div>
+
+                <div class="form-group">
+                    <label for="post_description">Description</label>
+                    <textarea class="form-control" id="post_description" name="post_description" placeholder="Description" class="post_description" rows="3"></textarea>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Create your Post</button>
+            </form>
+
+
+        </div>
+    </div>
+{% endblock %}
+
