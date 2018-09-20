@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="col-md-12">
+
+            <h1>{{ post.title }}</h1>
+
+            {% if alert %}
+                {% include "display/alert.html" %}
+            {% endif %}
+
+        <p>{{ post.description }}</p>
+
+        <p>Url: {{ post.url }}</p>
+        <p>Publication date: {{ post.pub_date }}</p>
+
+        <p>Author name: {{ post.author.name }}</p>
+
+        <p>Total votes: {{ post.votes_total }}</p>
+
+
+        </div>
+    </div>
+{% endblock %}
+

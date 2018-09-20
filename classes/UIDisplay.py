@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 class UIDisplay:
@@ -9,3 +9,4 @@ class UIDisplay:
             "message": message,
             "type": type
         }})
+
